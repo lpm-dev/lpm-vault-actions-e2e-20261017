@@ -13,7 +13,7 @@ jobs:
           PREFIX_SECRET: ${{ secrets.NEXT_PUBLIC_E2E_TOKEN }}
           VARIABLE: ${{ vars.E2E_VARIABLE }}
           EXISTING: ${{ vars.E2E_EXISTING_VARIABLE }}
-        shell: python
+        shell: python3 {0}
         run: |
           import os
           expected = {"SECRET": "dummy-repository-secret-20261017", "PREFIX_SECRET": "dummy-repository-prefix-20261017", "VARIABLE": "repository-readable", "EXISTING": "repository-existing-updated"}
@@ -31,7 +31,7 @@ jobs:
           PREFIX_SECRET: ${{ secrets.NEXT_PUBLIC_E2E_TOKEN }}
           VARIABLE: ${{ vars.E2E_VARIABLE }}
           EXISTING: ${{ vars.E2E_EXISTING_VARIABLE }}
-        shell: python
+        shell: python3 {0}
         run: |
           import os
           expected = {"SECRET": "dummy-staging-secret-20261017", "PREFIX_SECRET": "dummy-staging-prefix-20261017", "VARIABLE": "staging-readable", "EXISTING": "staging-existing-updated"}
