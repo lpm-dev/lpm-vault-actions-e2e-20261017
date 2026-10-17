@@ -5,7 +5,7 @@ permissions:
   contents: read
 jobs:
   repository:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS, ARM64, lpm-vault-e2e-20261017]
     steps:
       - name: Check repository values without logging them
         env:
@@ -22,7 +22,7 @@ jobs:
                   raise SystemExit(f"{key} verification failed")
           print("All repository secret and variable checks passed")
   environment:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS, ARM64, lpm-vault-e2e-20261017]
     environment: staging
     steps:
       - name: Check environment overrides without logging them
