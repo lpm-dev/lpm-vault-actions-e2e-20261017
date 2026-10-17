@@ -1,0 +1,41 @@
+name: Verify Vault publishing
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  repository:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check repository values without logging them
+        env:
+          SECRET: ${{ secrets.E2E_SECRET }}
+          PREFIX_SECRET: ${{ secrets.NEXT_PUBLIC_E2E_TOKEN }}
+          VARIABLE: ${{ vars.E2E_VARIABLE }}
+          EXISTING: ${{ vars.E2E_EXISTING_VARIABLE }}
+        shell: python
+        run: |
+          import os
+          expected = {"SECRET": "dummy-repository-secret-20261017", "PREFIX_SECRET": "dummy-repository-prefix-20261017", "VARIABLE": "repository-readable", "EXISTING": "repository-existing-updated"}
+          for key, value in expected.items():
+              if os.environ[key] != value:
+                  raise SystemExit(f"{key} verification failed")
+          print("All repository secret and variable checks passed")
+  environment:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Check environment overrides without logging them
+        env:
+          SECRET: ${{ secrets.E2E_SECRET }}
+          PREFIX_SECRET: ${{ secrets.NEXT_PUBLIC_E2E_TOKEN }}
+          VARIABLE: ${{ vars.E2E_VARIABLE }}
+          EXISTING: ${{ vars.E2E_EXISTING_VARIABLE }}
+        shell: python
+        run: |
+          import os
+          expected = {"SECRET": "dummy-staging-secret-20261017", "PREFIX_SECRET": "dummy-staging-prefix-20261017", "VARIABLE": "staging-readable", "EXISTING": "staging-existing-updated"}
+          for key, value in expected.items():
+              if os.environ[key] != value:
+                  raise SystemExit(f"{key} verification failed")
+          print("All environment secret and variable checks passed")
